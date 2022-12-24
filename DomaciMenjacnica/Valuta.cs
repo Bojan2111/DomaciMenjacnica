@@ -34,5 +34,17 @@ namespace DomaciMenjacnica
         {
             return OznakaValute.GetHashCode() ^ NazivValute.GetHashCode();
         }
+
+        internal static Valuta FromFileToObject(string tekst)
+        {
+            string[] tokeni = tekst.Split(',');
+            if (tokeni.Length != 2)
+            {
+                Console.WriteLine("Greska pri ocitavanju valute " + tekst);
+                Environment.Exit(0);
+            }
+
+            return new Valuta(tokeni[0], tokeni[1]);
+        }
     }
 }

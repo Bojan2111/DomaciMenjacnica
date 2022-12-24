@@ -9,9 +9,9 @@ namespace DomaciMenjacnica
     internal class KursnaLista
     {
         public string DatumListe { get; set; }
-        public List<Dictionary<string, double[]>> ListaValuta { get; set; }
+        public Dictionary<string, double[]> ListaValuta { get; set; }
 
-        public KursnaLista(string datumListe, List<Dictionary<string, double[]>> listaValuta)
+        public KursnaLista(string datumListe, Dictionary<string, double[]> listaValuta)
         {
             this.DatumListe = datumListe;
             ListaValuta = listaValuta;
@@ -24,13 +24,11 @@ namespace DomaciMenjacnica
 
             sb.Append($"Kursna lista kreirana na dan {nizDatuma[2]}. {nizDatuma[1]}. {nizDatuma[0]}.\n" +
                 $"Oznaka | Kupovni | Prodajni | Srednji\n");
-            foreach(Dictionary<string, double[]> dict in ListaValuta)
-            {
-                foreach(KeyValuePair<string, double[]> kl in dict)
+            
+                foreach(KeyValuePair<string, double[]> kl in ListaValuta)
                 {
                     sb.Append($"  {kl.Key}  | {kl.Value[0]} | {kl.Value[1]} | {kl.Value[2]}\n");
                 }
-            }
             return sb.ToString();
         }
 
