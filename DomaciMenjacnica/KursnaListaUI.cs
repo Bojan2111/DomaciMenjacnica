@@ -12,10 +12,11 @@ namespace DomaciMenjacnica
         internal static List<KursnaLista> kursneListe = new List<KursnaLista>();
         internal static void KursneListeMeni()
         {
+            Console.Clear();
             int odabir = -1;
             while (odabir != 0)
             {
-                Console.Clear();
+                
                 Console.WriteLine("\nOpcije:");
                 IspisOpcija();
                 odabir = int.Parse(Console.ReadLine());
@@ -43,35 +44,12 @@ namespace DomaciMenjacnica
         private static void UnosNoveKursneListe()
         {
             Console.Clear();
-            string danas = DateTime.Now.ToString("yyyy-MM-dd");
-            string unos = "";
-            foreach (KursnaLista kl in kursneListe)
-            {
-                if (danas == kl.DatumListe)
-                {
-                    Console.WriteLine("Kursna lista za danasnji dan vec postoji u bazi.\nUnesite neki drugi datum u formatu GGGG-MM-DD:");
-                    unos = Console.ReadLine();
-                }
-                else
-                {
-                    string odluka = "";
-                    Console.WriteLine("Da li zelite kreirati kursnu listu sa danasnjim datumom? (d/n) ");
-                    odluka = Console.ReadLine();
-                    if (odluka == "d")
-                    {
-                        Console.WriteLine("Kreira se kursna lista sa danasnjim datumom . . .");
-                        unos = danas;
-                    }
-                    else if (odluka == "n")
-                    {
-                        Console.WriteLine("Unesite zeljeni datum u formatu GGGG-MM-DD: ");
-                        unos = Console.ReadLine();
-                    }
-                    else
-                        Console.WriteLine("Nepostojeca komanda.\n");
-                }
-                break;
-            }
+            Console.WriteLine("Sledece kursne liste vec postoje u bazi i ne mogu se menjati:");
+            IspisSvihKursnihLista();
+            //string danas = DateTime.Now.ToString("yyyy-MM-dd");
+            Console.WriteLine("Unesite zeljeni datum u formatu GGGG-MM-DD: ");
+            string unos = Console.ReadLine();
+            
             Dictionary<string, double[]> noviDict = new Dictionary<string, double[]>();
             foreach (Valuta v in ValutaUI.listaValuta)
             {
@@ -123,9 +101,26 @@ namespace DomaciMenjacnica
             Console.WriteLine("0 - NAZAD");
         }
 
-        internal static void SacuvajKursneListe(string v)
+        internal static void SacuvajKursneListe(string adresa)
         {
-            throw new NotImplementedException();
+            foreach (KursnaLista kl in kursneListe)
+            {
+                string punaPutanja = adresa + kl.DatumListe + ".csv";
+                if (Directory.Exists(adresa))
+                {
+                    using (StreamWriter writer = new StreamWriter(punaPutanja, false, Encoding.UTF8))
+                    {
+                        foreach (KeyValuePair<string,double[]> dict in kl.ListaValuta)
+                        {
+                            writer.WriteLine($"{dict.Key},{dict.Value[0]},{dict.Value[1]},{dict.Value[2]}");
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Datoteka ne postoji ili putanja nije ispravna.");
+                }
+            }
         }
 
         internal static void UcitajFajloveKursnihLista(string adresa)

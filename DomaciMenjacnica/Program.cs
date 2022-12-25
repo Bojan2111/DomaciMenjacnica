@@ -31,7 +31,6 @@ namespace DomaciMenjacnica
             int odluka = -1;
             while (odluka != 0)
             {
-                //Console.Clear();
                 GlavniMeni();
                 Console.WriteLine("Izaberi opciju:");
                 odluka = int.Parse(Console.ReadLine());
@@ -59,6 +58,7 @@ namespace DomaciMenjacnica
 
         private static void GlavniMeni()
         {
+            Console.Clear();
             string naslov = "M E NJ A C N I C A";
             int razmak = (Console.WindowWidth - naslov.Length) / 2;
             Console.WriteLine($"{new string(' ',razmak)}{naslov}");

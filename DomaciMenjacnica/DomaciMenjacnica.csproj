@@ -53,6 +53,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="data\kursneListe\2022-12-24.csv" />
+    <None Include="data\kursneListe\2022-12-25.csv" />
     <None Include="data\valute.csv" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
